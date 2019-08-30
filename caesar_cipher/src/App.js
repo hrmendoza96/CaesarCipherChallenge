@@ -1,22 +1,43 @@
 import React, { useState } from 'react';
 import Input from './components/Input';
-import TextList from './components/TextList';
+import CipheredText from './components/CipheredText';
 
 //Import Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
-import uuid from 'uuid';
-
-
 
 function App() {
-  const [cipheredText, setCipheredTexts] = useState([
+  const [cipheredTexts, setCipheredTexts] = useState([
     {
-      text: 'Hello Harold',
+      text: 'Hello Harold'
     },
     {
-      text: 'This is a test',
+      text: 'This is a test'
+    }
+    ,
+    {
+      text: 'This is a test 2'
     }
   ]);
+
+  const handleChange = (e) =>{
+    this.setState({
+      text: e.target.value
+    });
+  }
+
+  const addText = (text) => {
+    const newCipheredText = [...cipheredTexts, { text }];
+    setCipheredTexts(newCipheredText);
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault(); //Prevent Refresh of page
+    
+
+    const addCipheredText = [...cipheredTexts, newText];
+    setCipheredTexts(addCipheredText);
+
+  }
 
   const cipher = (textToCipher) => {
     const textArray = textToCipher.toUpperCase().split(""); //Splits each letter
@@ -24,7 +45,7 @@ function App() {
       "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
     let cipheredArray = [];
     for (let i = 0; i < textArray.length; i++) {
-      if (alphabet.indexOf(textArray[i]) != -1) {
+      if (alphabet.indexOf(textArray[i]) !== -1) {
         if (alphabet.indexOf(textArray[i]) <= 13) {
           cipheredArray.push(alphabet[alphabet.indexOf(textArray[i]) + 13]);
         } else {
@@ -35,10 +56,9 @@ function App() {
       }
     }
 
-    
-    console.log(cipheredArray.join(""));
-  }
 
+    return cipheredArray.join("");
+  }
 
   return (
     <div>
@@ -46,9 +66,17 @@ function App() {
         <div className="row">
           <div className="col col-md-8 mt-4 mx-auto ">
             <h2 className="text-capitalize text-center">The Caesar Cipher Challenge</h2>
-            {cipher("Hola Harold")}
-            <Input/>
-            <TextList />
+            <Input addText={addText} handleSubmit={handleSubmit} />
+
+            {
+              cipheredTexts.map((cipheredText, index) => (
+                cipheredText.text = cipher(cipheredText.text), //CipherText
+                console.log(cipheredText)
+                // <CipheredText key={index} index={index} cipheredText={cipheredText} />
+              ))
+
+            } 
+            
           </div>
         </div>
       </div>

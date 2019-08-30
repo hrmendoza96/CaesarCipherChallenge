@@ -4,7 +4,7 @@ export default class CipheredText extends Component {
     render() {
         return (
             <li className="list-group-item d-flex justify-content-between my-2">
-                <h6>Title</h6>
+                <h6> {this.props.cipheredText.text} </h6>
                 <div className="todo-icon">
                     <span className="mx-2 text-primary">
                         <i className="fas fa-eye-slash"/>
