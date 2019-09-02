@@ -1,9 +1,44 @@
 import React, { useState } from 'react';
-import Input from './components/Input';
-import CipheredText from './components/CipheredText';
 
 //Import Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+function Input() {
+  return (
+    <div className="card card-body my-3">
+      <form onSubmit={}>
+        <div className="mb-3">
+          <h5>Text to Cipher</h5>
+        </div>
+        <div className="input-group">
+          <div className="input-group-prepend">
+            <div className="input-group-text bg-secondary text-white">
+              <i className="fas fa-keyboard"></i>
+            </div>
+          </div>
+          <input type="text" className="form-control" placeholder="Input Text to Cipher"></input>
+        </div>
+        <button type="submit" className="btn btn-block btn-primary mt-3">Encrypt</button>
+      </form>
+    </div>
+  )
+}
+
+function CipheredText(cipheredText, index) {
+  return (
+    <li className="list-group-item d-flex justify-content-between my-2">
+      <h6> {cipheredText.text} </h6>
+      <div className="todo-icon">
+        <span className="mx-2 text-primary">
+          <i className="fas fa-eye-slash" />
+        </span>
+        <span className="mx-2 text-danger">
+          <i className="fas fa-trash" />
+        </span>
+      </div>
+    </li>
+  )
+}
 
 function App() {
   const [cipheredTexts, setCipheredTexts] = useState([
@@ -18,26 +53,6 @@ function App() {
       text: 'This is a test 2'
     }
   ]);
-
-  const handleChange = (e) =>{
-    this.setState({
-      text: e.target.value
-    });
-  }
-
-  const addText = (text) => {
-    const newCipheredText = [...cipheredTexts, { text }];
-    setCipheredTexts(newCipheredText);
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault(); //Prevent Refresh of page
-    
-
-    const addCipheredText = [...cipheredTexts, newText];
-    setCipheredTexts(addCipheredText);
-
-  }
 
   const cipher = (textToCipher) => {
     const textArray = textToCipher.toUpperCase().split(""); //Splits each letter
@@ -66,17 +81,16 @@ function App() {
         <div className="row">
           <div className="col col-md-8 mt-4 mx-auto ">
             <h2 className="text-capitalize text-center">The Caesar Cipher Challenge</h2>
-            <Input addText={addText} handleSubmit={handleSubmit} />
+            <Input/>
 
             {
               cipheredTexts.map((cipheredText, index) => (
                 cipheredText.text = cipher(cipheredText.text), //CipherText
-                console.log(cipheredText)
-                // <CipheredText key={index} index={index} cipheredText={cipheredText} />
+                <CipheredText key={index} index={index} cipheredText={cipheredText} />
               ))
 
-            } 
-            
+            }
+
           </div>
         </div>
       </div>
