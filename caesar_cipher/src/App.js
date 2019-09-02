@@ -69,8 +69,6 @@ function App() {
     }
   ]);
 
-
-
   const cipher = (textToCipher) => {
     const textArray = textToCipher.toUpperCase().split(""); //Splits each letter
     const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
@@ -111,7 +109,8 @@ function App() {
             {
               cipheredTexts.map((cipheredText, index) => (
                 cipheredText.text = cipher(cipheredText.text), //CipherText
-                <CipheredText key={index} index={index} cipheredText={cipheredText} />
+                <CipheredText key={index} index={index} cipheredText={cipheredText} 
+                />
               ))
             }
           </div>
