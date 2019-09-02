@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 //Import Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function Input({ addtext }) {
+//Input Form
+function Input({ addText }) {
   const [value, setValue] = useState(''); //fill in state through user input
 
   const handleSubmit = e => {
@@ -32,16 +33,14 @@ function Input({ addtext }) {
   )
 }
 
+//List of Ciphered Texts
 function CipheredText(cipheredText, index) {
   return (
     <li className="list-group-item d-flex justify-content-between my-2">
       <h6> {cipheredText.cipheredText.text} </h6>
       <div className="todo-icon">
-        <span className="mx-2 text-primary">
+        <span className="mx-2 text-secondary">
           <i className="fas fa-eye-slash" />
-        </span>
-        <span className="mx-2 text-danger">
-          <i className="fas fa-trash" />
         </span>
       </div>
     </li>
@@ -71,7 +70,7 @@ function App() {
     let cipheredArray = [];
     for (let i = 0; i < textArray.length; i++) {
       if (alphabet.indexOf(textArray[i]) !== -1) {
-        if (alphabet.indexOf(textArray[i]) <= 13) {
+        if (alphabet.indexOf(textArray[i]) < 13) {
           cipheredArray.push(alphabet[alphabet.indexOf(textArray[i]) + 13]);
         } else {
           cipheredArray.push(alphabet[alphabet.indexOf(textArray[i]) - 13]);
@@ -84,6 +83,9 @@ function App() {
   }
 
   const addText = text => {
+    cipheredTexts.map((cipheredText) => (
+      cipheredText.text = cipher(cipheredText.text)
+    )); //Decrypt original texts
     const newText = [...cipheredTexts, { text }];
     setCipheredTexts(newText);
   }
