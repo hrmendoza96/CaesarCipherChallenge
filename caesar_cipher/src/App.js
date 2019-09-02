@@ -4,12 +4,18 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 //Input Form
-function Input({ addText }) {
+function Input({ addCipheredText }) {
   const [value, setValue] = useState(''); //fill in state through user input
 
   const handleSubmit = e => {
     e.preventDefault();
-    addText(value);
+    value.trim();
+    if(value){
+      addCipheredText(value);
+    }else{
+      alert("Input is empty");
+    }
+    
     setValue(''); //Clean Input
   }
   return (
@@ -34,16 +40,18 @@ function Input({ addText }) {
 }
 
 //List of Ciphered Texts
-function CipheredText(cipheredText, index) {
+function CipheredText(cipheredText) {
   return (
-    <li className="list-group-item d-flex justify-content-between my-2">
-      <h6> {cipheredText.cipheredText.text} </h6>
-      <div className="todo-icon">
-        <span className="mx-2 text-secondary">
-          <i className="fas fa-eye-slash" />
-        </span>
-      </div>
-    </li>
+    <div>
+      <li className="list-group-item d-flex justify-content-between my-2">
+        <h6> {cipheredText.cipheredText.text} </h6>
+        <div className="todo-icon">
+          <span className="mx-2 text-secondary">
+            <i className="fas fa-eye-slash" />
+          </span>
+        </div>
+      </li>
+    </div>
   )
 }
 
@@ -57,7 +65,7 @@ function App() {
     }
     ,
     {
-      text: 'This is a test 2'
+      text: 'Cipher Challenge'
     }
   ]);
 
@@ -82,7 +90,7 @@ function App() {
     return cipheredArray.join("");
   }
 
-  const addText = text => {
+  const addCipheredText = text => {
     cipheredTexts.map((cipheredText) => (
       cipheredText.text = cipher(cipheredText.text)
     )); //Decrypt original texts
@@ -96,7 +104,10 @@ function App() {
         <div className="row">
           <div className="col col-md-8 mt-4 mx-auto ">
             <h2 className="text-capitalize text-center">The Caesar Cipher Challenge</h2>
-            <Input addText={addText} />
+            <Input addCipheredText={addCipheredText} />
+            <h3 className="text-capitalize text-center">
+              Ciphered Text List
+            </h3>
             {
               cipheredTexts.map((cipheredText, index) => (
                 cipheredText.text = cipher(cipheredText.text), //CipherText
