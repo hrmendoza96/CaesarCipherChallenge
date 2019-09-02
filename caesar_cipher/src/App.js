@@ -3,10 +3,17 @@ import React, { useState } from 'react';
 //Import Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function Input() {
+function Input({ addtext }) {
+  const [value, setValue] = useState(''); //fill in state through user input
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    addText(value);
+    setValue(''); //Clean Input
+  }
   return (
     <div className="card card-body my-3">
-      <form onSubmit={}>
+      <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <h5>Text to Cipher</h5>
         </div>
@@ -16,7 +23,8 @@ function Input() {
               <i className="fas fa-keyboard"></i>
             </div>
           </div>
-          <input type="text" className="form-control" placeholder="Input Text to Cipher"></input>
+          <input type="text" className="form-control" placeholder="Input Text to Cipher" value={value}
+            onChange={e => setValue(e.target.value)}></input>
         </div>
         <button type="submit" className="btn btn-block btn-primary mt-3">Encrypt</button>
       </form>
@@ -27,7 +35,7 @@ function Input() {
 function CipheredText(cipheredText, index) {
   return (
     <li className="list-group-item d-flex justify-content-between my-2">
-      <h6> {cipheredText.text} </h6>
+      <h6> {cipheredText.cipheredText.text} </h6>
       <div className="todo-icon">
         <span className="mx-2 text-primary">
           <i className="fas fa-eye-slash" />
@@ -54,6 +62,8 @@ function App() {
     }
   ]);
 
+
+
   const cipher = (textToCipher) => {
     const textArray = textToCipher.toUpperCase().split(""); //Splits each letter
     const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
@@ -70,9 +80,12 @@ function App() {
         cipheredArray.push(textArray[i]);
       }
     }
-
-
     return cipheredArray.join("");
+  }
+
+  const addText = text => {
+    const newText = [...cipheredTexts, { text }];
+    setCipheredTexts(newText);
   }
 
   return (
@@ -81,16 +94,13 @@ function App() {
         <div className="row">
           <div className="col col-md-8 mt-4 mx-auto ">
             <h2 className="text-capitalize text-center">The Caesar Cipher Challenge</h2>
-            <Input/>
-
+            <Input addText={addText} />
             {
               cipheredTexts.map((cipheredText, index) => (
                 cipheredText.text = cipher(cipheredText.text), //CipherText
                 <CipheredText key={index} index={index} cipheredText={cipheredText} />
               ))
-
             }
-
           </div>
         </div>
       </div>
