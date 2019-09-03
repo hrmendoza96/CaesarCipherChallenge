@@ -7,15 +7,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function Input({ addCipheredText }) {
   const [value, setValue] = useState(''); //fill in state through user input
 
+  /** 
+   * Validates inputed texts and sends it to addCipheredtext() to apply the Cipher and add it to the List
+  */
   const handleSubmit = e => {
     e.preventDefault();
     value.trim();
-    if(value){
+    if (value) {
       addCipheredText(value);
-    }else{
+    } else {
       alert("Input is empty");
     }
-    
+
     setValue(''); //Clean Input
   }
   return (
@@ -43,32 +46,40 @@ function Input({ addCipheredText }) {
 function CipheredText(cipheredText) {
   return (
     <div>
-      <li className="list-group-item d-flex justify-content-between my-2">
-        <h6> {cipheredText.cipheredText.text} </h6>
-        <div className="todo-icon">
-          <span className="mx-2 text-secondary">
-            <i className="fas fa-eye-slash" />
-          </span>
-        </div>
-      </li>
+        <li className="list-group-item d-flex justify-content-between my-2">
+          <h6> {cipheredText.cipheredText.text} </h6>
+        </li>
     </div>
   )
 }
 
+/**
+ * Main Page
+ */
 function App() {
+  /**
+   * State Example
+   */
   const [cipheredTexts, setCipheredTexts] = useState([
     {
-      text: 'Hello Harold'
+      text: 'Hello Harold',
+      isDeciphered: false
     },
     {
-      text: 'This is a test'
+      text: 'This is a test',
+      isDeciphered: false
     }
     ,
     {
-      text: 'Cipher Challenge'
+      text: 'Cipher Challenge',
+      isDeciphered: false
     }
   ]);
 
+  /**
+   * 
+   * Caesar Cipher Algorithm. Base 13 (Moves 13 letters to left or right).
+   */
   const cipher = (textToCipher) => {
     const textArray = textToCipher.toUpperCase().split(""); //Splits each letter
     const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
@@ -109,8 +120,7 @@ function App() {
             {
               cipheredTexts.map((cipheredText, index) => (
                 cipheredText.text = cipher(cipheredText.text), //CipherText
-                <CipheredText key={index} index={index} cipheredText={cipheredText} 
-                />
+                <CipheredText key={index} index={index} cipheredText={cipheredText}/>
               ))
             }
           </div>
